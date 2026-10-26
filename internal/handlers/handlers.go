@@ -28,7 +28,7 @@ func RootHandler(res http.ResponseWriter, req *http.Request) {
 }
 func UploadHandler(res http.ResponseWriter, req *http.Request) {
 	//Тут функция это парсить форму, но пока непонятно что с нее ты получаешь потом и как их читать и дальше передавать\
-	file, header, err := req.FormFile("myFile") // в  index смотри что на выходе
+	file, header, err := req.FormFile("myFile") // в  index смотри что на выходе это и есть parsing?
 	if err != nil {
 		http.Error(res, "Не удалось обработать данные формы", http.StatusBadRequest)
 		return
