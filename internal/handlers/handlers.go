@@ -30,13 +30,13 @@ func UploadHandler(res http.ResponseWriter, req *http.Request) string {
 	file, header, err := req.FormFile("myFile") //
 	if err != nil {
 		http.Error(res, "Не удалось обработать данные формы", http.StatusBadRequest)
-		return
+		return ""
 	}
 	defer file.Close()
 	data, err := io.ReadAll(file)
 	if err != nil {
 		http.Error(res, "Ошибка чтения файла: "+err.Error(), http.StatusInternalServerError) //ПЕРЕДЕЛАЙ НА ЯНДЕКСЕ ЕСТЬ КАК СЧИТАТЬ ФАЙЛ ПО СТРОКАМ ЧТОБЫ НЕ ЗАГРУЖАТЬ ПАМЯТЬ
-		return
+		return ""
 	}
 	dataOutput, err := service.AutoSelect(string(data))
 	if err != nil {
