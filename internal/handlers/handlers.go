@@ -26,17 +26,17 @@ func RootHandler(res http.ResponseWriter, req *http.Request) {
 	res.Header().Set("Content-Type", "text/html; charset=utf-8")
 	res.Write(data)
 }
-func UploadHandler(res http.ResponseWriter, req *http.Request) string {
+func UploadHandler(res http.ResponseWriter, req *http.Request) {
 	file, header, err := req.FormFile("myFile") //
 	if err != nil {
 		http.Error(res, "Не удалось обработать данные формы", http.StatusBadRequest)
-		return ""
+		return
 	}
 	defer file.Close()
 	data, err := io.ReadAll(file)
 	if err != nil {
 		http.Error(res, "Ошибка чтения файла: "+err.Error(), http.StatusInternalServerError) //ПЕРЕДЕЛАЙ НА ЯНДЕКСЕ ЕСТЬ КАК СЧИТАТЬ ФАЙЛ ПО СТРОКАМ ЧТОБЫ НЕ ЗАГРУЖАТЬ ПАМЯТЬ
-		return ""
+		return
 	}
 	dataOutput, err := service.AutoSelect(string(data))
 	if err != nil {
@@ -50,5 +50,5 @@ func UploadHandler(res http.ResponseWriter, req *http.Request) string {
 	}
 	defer resFile.Close()
 	fmt.Fprintf(resFile, "%s \n", dataOutput)
-	return dataOutput
+	res.Write([]byte(dataOutput))
 }
